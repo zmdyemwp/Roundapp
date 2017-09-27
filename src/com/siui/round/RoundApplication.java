@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 public class RoundApplication extends Application {
-     public static final String TAG = "RoundApplication";
+     // public static final String TAG = "RoundApplication";
+     public static final String TAG = "MIN";
 
      public RoundApplication() {
      }
