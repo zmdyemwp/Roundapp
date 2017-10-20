@@ -11,10 +11,12 @@
             android:shape="rectangle">
             <corners
                 android:topLeftRadius="@dimen/round_corner_size"
-                android:bottomLeftRadius="@dimen/round_corner_size"/>
+                android:topRightRadius="@dimen/round_corner_size"
+                android:bottomLeftRadius="@dimen/round_corner_size"
+                android:bottomRightRadius="@dimen/round_corner_size"/>
             <stroke
                 android:width="10dp"
-                android:color="#ffffff"/>
+                android:color="#000000"/>
         </shape>
     </item>
 

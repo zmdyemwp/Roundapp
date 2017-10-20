@@ -30,8 +30,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.database.ContentObserver;
-/* Check Screen Rotation */
-import android.view.OrientationEventListener;
 
 
 public class RoundService extends Service{
@@ -43,7 +41,7 @@ public class RoundService extends Service{
     MyHandler mHandler = new MyHandler();
     View mView = null;
     MaskView mMaskView = null;
-    // MyOrientationListener mListener = new MyOrientationListener();
+    MyOrientationListener mListener = new MyOrientationListener();
 
 
     ContentObserver observer = new ContentObserver(new Handler()) {
@@ -64,52 +62,12 @@ public class RoundService extends Service{
                 Settings.Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED, 0);
     }
 
-
-    OrientationEventListener mOrientationEventListener;
-
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "WmService onStartCommand");
 
         //  TODO: register setting listener
         Uri setting = Settings.Secure.getUriFor(Settings.Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED);
         getContentResolver().registerContentObserver(setting, false, observer);
-
-        //  TODO: register screen rotation listener
-        mOrientationEventListener = new OrientationEventListener(this) {
-            int mLastRotation = 0;
-            @Override
-            public void onOrientationChanged(int orientation) {
-                if (null == mView || null == mWM || orientation == ORIENTATION_UNKNOWN) return;
-
-                Display display = mWM.getDefaultDisplay();
-                int rotation = display.getRotation();
-                switch (rotation) {
-                  case Surface.ROTATION_0:
-                     // android.util.Log.i(TAG, "changed ROTATION_0 - " + orientation);
-                     break;
-                  case Surface.ROTATION_90:
-                     // android.util.Log.i(TAG, "changed ROTATION_90 - " + orientation);
-                     break;
-                  case Surface.ROTATION_180:
-                     // android.util.Log.i(TAG, "changed ROTATION_180 - " + orientation);
-                     break;
-                  case Surface.ROTATION_270:
-                     // android.util.Log.i(TAG, "changed ROTATION_270 - " + orientation);
-                     break;
-                }
-                //if ((rotation != mLastRotation) && (rotation & 0x1) == (mLastRotation & 0x1)) {
-                if(rotation != mLastRotation) {
-                    android.util.Log.i(TAG, "unhandled orientation changed >>> " + rotation);
-                    // updateParams();
-                    // mWM.updateViewLayout(mView, mParams);
-                    showWMOverlay();
-                }
-                mLastRotation = rotation;
-             }
-        };
-        if (mOrientationEventListener.canDetectOrientation()){
-            mOrientationEventListener.enable();
-        }
 
         showWMOverlay();
         return START_STICKY;
@@ -118,9 +76,6 @@ public class RoundService extends Service{
     public void onDestroy() {
         //  TODO: unregister setting listener
         getContentResolver().unregisterContentObserver(observer);
-        if(null != mOrientationEventListener) {
-            mOrientationEventListener.disable();
-        }
     }
 
 
@@ -163,7 +118,7 @@ public class RoundService extends Service{
             // Bitmap maskBitmap = getMaskBitmap();
             // mMaskView.setMask(maskBitmap);
             mMaskView.setMask(isInversionEnabled());
-            // mMaskView.registerOrientationListener(mListener);
+            mMaskView.registerOrientationListener(mListener);
             updateParams();
         }
         mWM.addView(mView, mParams);
@@ -210,40 +165,11 @@ public class RoundService extends Service{
         Point displaySize = new Point();
         display.getRealSize(displaySize);
         int rotation = display.getRotation();
-        switch(rotation) {
-            case Surface.ROTATION_0:
-                mParams.x = 0;
-                mParams.y = 0;
-                mParams.width = displaySize.x;
-                mParams.height = mMaskView.getMaskHeight();
-                //mParams.gravity = Gravity.LEFT | Gravity.TOP;
-                mParams.gravity = Gravity.LEFT | Gravity.BOTTOM;
-            break;
-            case Surface.ROTATION_90:
-                mParams.x = 0;
-                mParams.y = 0;
-                mParams.width = mMaskView.getMaskHeight();
-                mParams.height = displaySize.y;
-                // mParams.gravity = Gravity.LEFT | Gravity.TOP;
-                mParams.gravity = Gravity.RIGHT | Gravity.TOP;
-            break;
-            case Surface.ROTATION_180:
-                mParams.x = 0;
-                mParams.y = 0;
-                mParams.width = displaySize.x;
-                mParams.height = mMaskView.getMaskHeight();
-                //mParams.gravity = Gravity.LEFT | Gravity.BOTTOM;
-                mParams.gravity = Gravity.LEFT | Gravity.TOP;
-            break;
-            case Surface.ROTATION_270:
-                mParams.x = 0;
-                mParams.y = 0;
-                mParams.width = mMaskView.getMaskHeight();
-                mParams.height = displaySize.y;
-                // mParams.gravity = Gravity.RIGHT | Gravity.TOP;
-                mParams.gravity = Gravity.LEFT | Gravity.TOP;
-            break;
-        }
+        mParams.x = 0;
+        mParams.y = 0;
+        mParams.width = displaySize.x;
+        mParams.height = displaySize.y;
+        mParams.gravity = Gravity.LEFT | Gravity.TOP;
         Log.d("MIN", String.format("<r>[w, h] = <%d>[%d, %d]", rotation, mParams.width, mParams.height));
     }
 

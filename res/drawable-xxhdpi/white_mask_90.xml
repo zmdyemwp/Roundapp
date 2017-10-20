@@ -10,8 +10,8 @@
         <shape
             android:shape="rectangle">
             <corners
-                android:topRightRadius="18.9dp"
-                android:bottomRightRadius="18.9dp"/>
+                android:topRightRadius="@dimen/round_corner_size"
+                android:bottomRightRadius="@dimen/round_corner_size"/>
             <stroke
                 android:width="10dp"
                 android:color="#ffffff"/>

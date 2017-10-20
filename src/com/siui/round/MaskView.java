@@ -49,41 +49,9 @@ public class MaskView extends ImageView {
         Display display = mWM.getDefaultDisplay();
         int rotation = display.getRotation();
         if(mCurrentReverState) {
-            switch(rotation) {
-                case Surface.ROTATION_0:
-                    result = R.drawable.white_mask;
-                    break;
-                case Surface.ROTATION_90:
-                    result = R.drawable.white_mask_90;
-                    break;
-                case Surface.ROTATION_180:
-                    result = R.drawable.white_mask_180;
-                    break;
-                case Surface.ROTATION_270:
-                    result = R.drawable.white_mask_270;
-                    break;
-                default:
-                    result = R.drawable.white_mask;
-                    break;
-            }
+            result = R.drawable.white_mask_4_corner;
         } else {
-            switch(rotation) {
-                case Surface.ROTATION_0:
-                    result = R.drawable.black_mask;
-                    break;
-                case Surface.ROTATION_90:
-                    result = R.drawable.black_mask_90;
-                    break;
-                case Surface.ROTATION_180:
-                    result = R.drawable.black_mask_180;
-                    break;
-                case Surface.ROTATION_270:
-                    result = R.drawable.black_mask_270;
-                    break;
-                default:
-                    result = R.drawable.black_mask;
-                    break;
-            }
+            result = R.drawable.black_mask_4_corner;
         }
         return result;
     }
