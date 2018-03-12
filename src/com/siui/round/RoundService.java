@@ -1,4 +1,4 @@
-package com.siui.round;
+package com.evenwell.round;
 
 import android.app.Service;
 import android.content.Intent;
@@ -108,11 +108,18 @@ public class RoundService extends Service{
                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE; 
         mParams.privateFlags |= WindowManager.LayoutParams.PRIVATE_FLAG_SHOW_FOR_ALL_USERS;
         mParams.setTitle("RoundCorner");
+        int rotationAnimation = WindowManager.LayoutParams.ROTATION_ANIMATION_CROSSFADE;
+        mParams.rotationAnimation = rotationAnimation;
         LayoutInflater inflater = LayoutInflater.from(this);
-        mView = inflater.inflate(R.layout.mask_view, null);
+        if(isInversionEnabled()) {
+            mView = inflater.inflate(R.layout.mask_view_invert, null);
+        } else {
+            mView = inflater.inflate(R.layout.mask_view, null);
+        }
         if (mView != null && mView.getBackground() != null) {
             mParams.format = mView.getBackground().getOpacity();
         }
+        /* 20180309 - MinSMChien
         mMaskView = (MaskView)mView.findViewById(R.id.iv);
         if (mMaskView != null) {
             // Bitmap maskBitmap = getMaskBitmap();
@@ -121,6 +128,7 @@ public class RoundService extends Service{
             mMaskView.registerOrientationListener(mListener);
             updateParams();
         }
+        */
         mWM.addView(mView, mParams);
     }
 
@@ -137,7 +145,9 @@ public class RoundService extends Service{
             FILE_NAME = MASK_FILE_BLACK;
             index = 0;
         }
-        
+
+        /* MinSMChien - Memory Issue - Too much memory used - 20180306 */
+        /*
         File file = new File(FILE_NAME);
         if (file.exists()) {
             try {
@@ -158,6 +168,13 @@ public class RoundService extends Service{
         }
 
         return sMaskBitmap[index];
+        */
+        if(isInversionEnabled()) {
+            return BitmapFactory.decodeResource(getResources(), R.drawable.white_mask);
+        } else {
+            return BitmapFactory.decodeResource(getResources(), R.drawable.black_mask);
+        }
+        /* MinSMChien - Memory Issue - Too much memory used - 20180306 */
     }
 
     private void updateParams(){

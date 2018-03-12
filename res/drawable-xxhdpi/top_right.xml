@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- item android:drawable="@drawable/mask_shape"/>
+    <item android:drawable="@drawable/mask_color_black"/ -->
+    <item
+        android:top="-10dp"
+        android:left="-10dp"
+        android:bottom="-10dp"
+        android:right="-10dp">
+        <shape
+            android:shape="rectangle">
+            <corners
+                android:topRightRadius="@dimen/round_corner_size"/>
+            <stroke
+                android:width="10dp"
+                android:color="#000000"/>
+        </shape>
+    </item>
+
+</layer-list>

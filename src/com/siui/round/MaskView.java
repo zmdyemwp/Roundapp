@@ -1,4 +1,4 @@
-package com.siui.round;
+package com.evenwell.round;
 
 import android.annotation.Nullable;
 import android.content.Context;
@@ -15,10 +15,12 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import android.graphics.drawable.BitmapDrawable;
+
 public class MaskView extends ImageView {
     public static final String TAG = RoundApplication.TAG;
     WindowManager mWM = null;
-    Bitmap[] mMaskCache = new Bitmap[4];
+    //Bitmap[] mMaskCache = new Bitmap[4];
     int mHeight = 0;
     MaskOrientationListener mListener = null;
     Context mContext;
@@ -61,9 +63,30 @@ public class MaskView extends ImageView {
         int id = getCurrentImageResourceId();
         // mMaskCache v = new TypedValue();
         // mContext.getResources().getValue(R.dimen.float_value_for_shape, v, false);
+        try {
+            ((BitmapDrawable)this.getDrawable()).getBitmap().recycle();
+            Log.d("MIN", "Recycle before setImageResource");
+        } catch(Exception ex) {
+            if(ex instanceof NullPointerException) {
+                Log.d("MIN", "NullPointerException");
+            } else {
+                Log.d("MIN", ex.getLocalizedMessage());
+            }
+        }
         setImageResource(id);
+        try {
+            ((BitmapDrawable)this.getDrawable()).getBitmap().recycle();
+            Log.d("MIN", "Recycle after setImageResource");
+        } catch(Exception ex) {
+            if(ex instanceof NullPointerException) {
+                Log.d("MIN", "NullPointerException");
+            } else {
+                Log.d("MIN", ex.getLocalizedMessage());
+            }
+        }
     }
 
+    /*
     public void setMask(Bitmap maskBitmap) {
         mHeight = maskBitmap.getHeight();
         if (maskBitmap != null) {
@@ -86,6 +109,7 @@ public class MaskView extends ImageView {
         }
         setImageBitmap(mMaskCache[0]);
     }
+    */
 
     public int getMaskHeight() {
         // return mHeight;
