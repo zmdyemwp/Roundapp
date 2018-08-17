@@ -11,5 +11,7 @@ LOCAL_PROGUARD_ENABLED := disabled
 
 LOCAL_CERTIFICATE := platform
 
+LOCAL_DEX_PREOPT := false
+
 include $(BUILD_PACKAGE)
 include $(call all-makefiles-under, $(LOCAL_PATH))

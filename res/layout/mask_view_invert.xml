@@ -11,41 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" / -->
+        android:layout_alignParentTop="true" />
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/black_mask_4_corner" />
-
-    <!--    Side effect when change display size
+        android:src="@drawable/black_mask_4_corner" / -->
     <ImageView
         android:layout_width="@dimen/round_corner_size"
         android:layout_height="@dimen/round_corner_size"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/top_left" />
+        android:src="@drawable/top_left_invert" />
     <ImageView
         android:layout_width="@dimen/round_corner_size"
         android:layout_height="@dimen/round_corner_size"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/top_right" />
+        android:src="@drawable/top_right_invert" />
     <ImageView
         android:layout_width="@dimen/round_corner_size"
         android:layout_height="@dimen/round_corner_size"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/bottom_left" />
+        android:src="@drawable/bottom_left_invert" />
     <ImageView
         android:layout_width="@dimen/round_corner_size"
         android:layout_height="@dimen/round_corner_size"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:src="@drawable/bottom_right" />
-    -->
+        android:src="@drawable/bottom_right_invert" />
 
 </RelativeLayout>
