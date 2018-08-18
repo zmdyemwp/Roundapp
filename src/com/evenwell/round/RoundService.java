@@ -37,7 +37,7 @@ import android.database.ContentObserver;
 
 public class RoundService extends Service{
     public static final String TAG = RoundApplication.TAG;
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
     private static final String MASK_FILE_BLACK = "system/etc/black_mask.png";
     private static final String MASK_FILE_WHITE = "system/etc/white_mask.png";
     WindowManager mWM = null;
