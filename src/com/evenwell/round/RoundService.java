@@ -37,7 +37,7 @@ import android.database.ContentObserver;
 
 public class RoundService extends Service{
     public static final String TAG = RoundApplication.TAG;
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
     private static final String MASK_FILE_BLACK = "system/etc/black_mask.png";
     private static final String MASK_FILE_WHITE = "system/etc/white_mask.png";
     WindowManager mWM = null;
@@ -128,7 +128,12 @@ public class RoundService extends Service{
             showViewOrNot(false);
         }
     }
+    static boolean bshow = false;
     private void showViewOrNot(boolean show){
+        if (bshow == show) {
+            return;
+        }
+        bshow = show;
         removeView();
         if(show) {
             if(DEBUG) Log.d(TAG, "showViewOrNot::SHOW");
@@ -137,6 +142,7 @@ public class RoundService extends Service{
             if(DEBUG) Log.d(TAG, "showViewOrNot::HIDE");
             mWM.addView(mView, mParamsHide);
         }
+        // mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         mView.addOnLayoutChangeListener(mLayoutChangeListener);
     }
     OnLayoutChangeListener mLayoutChangeListener = new OnLayoutChangeListener() {
@@ -197,12 +203,26 @@ public class RoundService extends Service{
         }
     }
 
+    private static final int MAX_RETRY_TIMES = Integer.MAX_VALUE;
+    int retry_count = 0;
     protected void handleShowOverlay() {
+
+        File f = getApplicationContext().getCacheDir();
+        if (null == f || !f.exists()) {
+            Log.i(TAG, "Cache path NOT ready waiting...");
+            try { Thread.sleep(1000); } catch (Exception e) { Log.e(TAG, e.toString()); }
+            mHandler.sendEmptyMessage(MyHandler.SHOW_MSG);
+            return;
+        }
+
+
         mWM = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         if(null != mView) mWM.removeView(mView);
 
         mParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SECURE_SYSTEM_OVERLAY);
         mParamsHide = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SECURE_SYSTEM_OVERLAY);
+        // mParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+        // mParamsHide = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
 
         mParams.flags = 
                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
