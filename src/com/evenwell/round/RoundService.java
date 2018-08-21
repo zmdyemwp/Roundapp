@@ -142,7 +142,6 @@ public class RoundService extends Service{
             if(DEBUG) Log.d(TAG, "showViewOrNot::HIDE");
             mWM.addView(mView, mParamsHide);
         }
-        // mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         mView.addOnLayoutChangeListener(mLayoutChangeListener);
     }
     OnLayoutChangeListener mLayoutChangeListener = new OnLayoutChangeListener() {
@@ -221,8 +220,6 @@ public class RoundService extends Service{
 
         mParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SECURE_SYSTEM_OVERLAY);
         mParamsHide = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SECURE_SYSTEM_OVERLAY);
-        // mParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
-        // mParamsHide = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
 
         mParams.flags = 
                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |

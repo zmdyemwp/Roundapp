@@ -13,7 +13,6 @@ public class RoundApplication extends Application {
 
     @Override
     public void onCreate() {
-        // TODO: check data path and cache path is ready
         getApplicationContext().startService(new Intent(getApplicationContext(), RoundService.class));
     }
 }
